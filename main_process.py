@@ -57,9 +57,12 @@ def main():
     pipe.to(device)
 
     # Setting the prompt
-    batch_size = 8
-    prompt = "portrait photo of a old warrior chief"
-    prompt += ", tribal panther make up, blue on red, side profile, looking away, serious eyes"
+    batch_size = 4
+    # prompt = "portrait photo of a old warrior chief woman"
+    # prompt += ", tribal panther make up, blue on red, side profile, looking away, serious eyes"
+    # prompt += " 50mm portrait photography, hard rim lighting photography--beta --ar 2:3  --beta --upbeta"
+
+    prompt = "a color image of a driver smoking cigarette looking to the camera"
     prompt += " 50mm portrait photography, hard rim lighting photography--beta --ar 2:3  --beta --upbeta"
 
     # prompt = [
@@ -77,7 +80,8 @@ def main():
     # Setting the generator's seed
     inputs, seeds_list = set_inputs(prompt=prompt,
                                     batch_size=batch_size,
-                                    seed=int(np.random.randint(100, size=1)[0]))
+                                    seed=None,
+                                    nsteps=25)
 
     if process_type == ProcessType.ITERATIVE:
         images = []

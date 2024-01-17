@@ -12,10 +12,13 @@ def set_inputs(prompt: Union[str, List[str]], batch_size: int = 1, nsteps: int =
 
     if seed is None:
         # Applying random seed to each prompt
-        seeds_list = np.random.randint(batch_size * 10, size=batch_size)
+        seeds_list = np.random.randint(batch_size * 100, size=batch_size)
     elif isinstance(seed, int):
         # Applying the same seed for all prompts
         seeds_list = batch_size * [seed]
+    else:
+        # Applying the same seed for all prompts
+        seeds_list = seed
 
     generator_list = []
     for idx in range(len(prompt)):
@@ -28,7 +31,11 @@ def set_inputs(prompt: Union[str, List[str]], batch_size: int = 1, nsteps: int =
 def save_generation_metadata(inputs: Dict, seeds: List, out_filename: str) -> None:
     # Setting the parameters to save
     inputs.pop('generator')
-    inputs['seeds'] = seeds.tolist()
+    if isinstance(seeds, list):
+        inputs['seeds'] = seeds
+    else:
+        inputs['seeds'] = seeds.tolist()
+
     inputs['num_inference_steps'] = len(inputs['seeds']) * [inputs['num_inference_steps']]
 
     # Serializing json
